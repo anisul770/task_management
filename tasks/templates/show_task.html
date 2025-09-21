@@ -6,8 +6,15 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="bg-gray-200 text-center py-3 ">
-        <p>Task Management System</p>
+    <div>
+        <ul>
+            {% for task in tasks %}
+                <li>{{task.status}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        {{task3}}
     </div>
 </body>
 </html>

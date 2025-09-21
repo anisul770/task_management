@@ -1,4 +1,12 @@
 asgiref==3.9.1
+defusedxml==0.7.1
 Django==5.2.4
+django-debug-toolbar==6.0.0
+Faker==37.8.0
+fonttools==4.59.2
+fpdf2==2.8.4
+pillow==11.3.0
+psycopg==3.2.9
+psycopg-binary==3.2.9
 sqlparse==0.5.3
 tzdata==2025.2
