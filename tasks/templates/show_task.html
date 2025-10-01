@@ -7,14 +7,39 @@
 </head>
 <body>
     <div>
-        <ul>
+        {% comment %} <ul>
+            Access with task table
             {% for task in tasks %}
-                <li>{{task.status}}</li>
+                <li>
+                    <p>{{task.title}}</p>
+                    <span>{{task.details.priority}}</span>
+                </li>
             {% endfor %}
-        </ul>
+            access with task details table
+            {% for task in tasks %}
+                <li>
+                    <p>{{task.title}}</p>
+                    {% for emp in task.assigned_to.all %}
+                        <span>{{emp.name}}</span><br>
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul> {% endcomment %}
+        {% comment %} <p style="color:blue;font-size: 40px;font-weight: bold;">{{tsk_count}}</p> {% endcomment %}
     </div>
-    <div>
+    {% comment %} <div>
         {{task3}}
+    </div> {% endcomment %}
+    <div>
+        <ol>
+            {% for p in tsk_count %}
+                <li>
+                    <p>{{p.name}}</p>
+                    <p>{{p.num_task}}</p>
+                </li>
+            {% endfor %}
+        </ol>
     </div>
+    {% comment %} <div>{{tasks}}</div> {% endcomment %}
 </body>
 </html>
