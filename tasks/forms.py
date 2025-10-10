@@ -1,5 +1,5 @@
 from django import forms
-from tasks.models import Task
+from tasks.models import Task,TaskDetail
 
 # Django Form
 class TaskForm(forms.Form):
@@ -18,7 +18,7 @@ class TaskForm(forms.Form):
 
 class StyleFormMixin:
     """Mixing to apply style to form field"""
-    default_classes = "border-2 border-gray-300 w-full rounded-lg shadow-sm focus:outline-none focus:border-rose-400 "
+    default_classes = "border-2 border-gray-300 w-full rounded-lg shadow-sm focus:outline-none focus:border-rose-400 focus:ring-rose-500"
     def apply_style_widget(self):
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.TextInput):
@@ -28,13 +28,13 @@ class StyleFormMixin:
                 })
             elif isinstance(field.widget, forms.Textarea):
                 field.widget.attrs.update({
-                    'class' : self.default_classes,
+                    'class' : f"{self.default_classes} resize-none",
                     'placeholder': f"Enter{field.label.lower()}",
                     'rows':5
                 })
             elif isinstance(field.widget, forms.SelectDateWidget):
                 field.widget.attrs.update({
-                    'class' : "border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-rose-400 ",
+                    'class' : "border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-rose-400 focus:ring-rose-500",
                 })
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
                 field.widget.attrs.update({
@@ -78,6 +78,15 @@ class TaskModelForm(StyleFormMixin,forms.ModelForm):
         #     })
         # }
     '''widget using mixins'''
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args,**kwargs)
+        self.apply_style_widget()
+
+class TaskDetailModelForm(StyleFormMixin,forms.ModelForm):
+    class Meta:
+        model = TaskDetail
+        fields = ['priority','notes']
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
         self.apply_style_widget()
