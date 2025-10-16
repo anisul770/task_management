@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
-# Exit immediately on error
+# Exit on error
 set -o errexit
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Run database migrations automatically
+# Run migrations
 python manage.py migrate
 
-# Collect static files (optional)
+# Populate the database
+python populate_db.py
+
+# Collect static files
 python manage.py collectstatic --no-input
