@@ -2,16 +2,16 @@ import os
 import django
 from faker import Faker
 import random
-from tasks.models import Employee, Project, Task, TaskDetail
 
-# Set up Django environment
+# Step 1: Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'task_management.settings')
 django.setup()
 
-# Function to populate the database
+# Step 2: Import your models after Django is configured
+from tasks.models import Employee, Project, Task, TaskDetail
 
+# Step 3: Function to populate the database
 def populate_db():
-    # Initialize Faker
     fake = Faker()
 
     # Create Projects
@@ -48,10 +48,13 @@ def populate_db():
     for task in tasks:
         TaskDetail.objects.create(
             task=task,
-            assigned_to=", ".join(
-                [emp.name for emp in task.assigned_to.all()]),
+            assigned_to=", ".join([emp.name for emp in task.assigned_to.all()]),
             priority=random.choice(['H', 'M', 'L']),
             notes=fake.paragraph()
         )
     print("Populated TaskDetails for all tasks.")
     print("Database populated successfully!")
+
+# Step 4: Run the population when executed
+if __name__ == "__main__":
+    populate_db()
