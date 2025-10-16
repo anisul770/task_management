@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url,os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -96,8 +96,7 @@ DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
         default='postgresql://task_manager_db_lzqe_user:vZUxO0HoBheE0TCZKRZSuQ7yTDCkSNUd@dpg-d3l12f33fgac73a6qdrg-a.oregon-postgres.render.com/task_manager_db_lzqe',
-        conn_max_age=600,
-        ssl_require=True
+        conn_max_age=600
     )
 }
 
@@ -149,6 +148,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
 STATICFILES_DIRS = [
     BASE_DIR /'static'
 ]

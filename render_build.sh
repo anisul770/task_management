@@ -12,4 +12,4 @@ python manage.py migrate
 python populate_db.py
 
 # Collect static files
-python manage.py collectstatic --no-input
+# python manage.py collectstatic --no-input
