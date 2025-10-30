@@ -18,6 +18,10 @@ class TaskForm(forms.Form):
 
 class StyleFormMixin:
     """Mixing to apply style to form field"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args,**kwargs)
+        self.apply_style_widget()
+        
     default_classes = "border-2 border-gray-300 w-full rounded-lg shadow-sm focus:outline-none focus:border-rose-400 focus:ring-rose-500"
     def apply_style_widget(self):
         for field_name, field in self.fields.items():
@@ -78,15 +82,10 @@ class TaskModelForm(StyleFormMixin,forms.ModelForm):
         #     })
         # }
     '''widget using mixins'''
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args,**kwargs)
-        self.apply_style_widget()
+    
 
 class TaskDetailModelForm(StyleFormMixin,forms.ModelForm):
     class Meta:
         model = TaskDetail
         fields = ['priority','notes']
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args,**kwargs)
-        self.apply_style_widget()

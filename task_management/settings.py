@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-!_67mfn%u-c@byw34t7omse=toa1=wogj(x2r^9fzjtmp38wn9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com','http://127.0.0.1:8000']
+# ALLOWED_HOSTS = ['*'] #for render
+ALLOWED_HOSTS = []
+# CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com','http://127.0.0.1:8000']
 
 # Application definition
 
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tasks',
     'users',
-    "debug_toolbar"
+    "debug_toolbar",
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -92,26 +94,26 @@ WSGI_APPLICATION = 'task_management.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://task_manager_db_lzqe_user:vZUxO0HoBheE0TCZKRZSuQ7yTDCkSNUd@dpg-d3l12f33fgac73a6qdrg-a.oregon-postgres.render.com/task_manager_db_lzqe',
-        conn_max_age=600
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         # Replace this value with your local database's connection string.
+#         default='postgresql://task_manager_db_lzqe_user:vZUxO0HoBheE0TCZKRZSuQ7yTDCkSNUd@dpg-d3l12f33fgac73a6qdrg-a.oregon-postgres.render.com/task_manager_db_lzqe',
+#         conn_max_age=600
+#     )
+# }
 
 # For Postgres
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'task_management',
-#         'USER': 'postgres',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'task_management',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
