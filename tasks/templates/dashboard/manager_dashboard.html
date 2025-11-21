@@ -3,6 +3,13 @@
 {% block tasks %}
 {% comment %} Task Table {% endcomment %}
 <div class="bg-white rounded-xl shadow-sm mx-8">
+    <div>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">{{message}}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
     <div class="grid grid-cols-4 p-4 border-b border-gray-100 text-sm text-gray-500">
         <div>TASK TITLE</div>
         <div>PRIORITY</div>

@@ -1,15 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "css/output.css" %}">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Welcome to Authentication System</h1>
-    <div>
+{% extends "base.html" %}
+{% block content %}
+    <div class="mx-auto w-1/2 my-9">
         {% if messages %}
             {% for message in messages %}
                 <div class="px-2 py-1 text-green-500">{{message}}</div>
@@ -38,5 +29,4 @@
             <button type='submit' class="rounded-md bg-blue-600 text-white p-2 ">Sign Up</button>
         </form>
     </div>
-</body>
-</html>
+{% endblock content %}
