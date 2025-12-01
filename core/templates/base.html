@@ -1,14 +1,32 @@
+{% load role_filters %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TaskMaster - Efficient Task Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/output.css" %}">
+    <style>
+        body{
+            font-family: "Inter", sans-serif;
+        }
+    </style>
   </head>
   <body class="font-sans bg-gray-100">
+    {% if request.user.is_authenticated %}
+      {% comment %} {% if request.user|is_manager %}
+        {% include "dashboard/manager_nav.html" %}
+      {% else %}
+        {% include "logged_nav.html" %}
+      {% endif %} {% endcomment %}
+    {% include "logged_nav.html" %}
+    {% else %}
     {% include "non_logged_nav.html" %}
-
+    {% endif %}
     <main>
       {% block content %}
         
@@ -73,6 +91,19 @@
         .addEventListener("click", function () {
           document.getElementById("mobile-menu").classList.toggle("hidden");
         });
+
+      document
+        .getElementById("user-menu-button")
+        .addEventListener("click", function () {
+          document.getElementById("user-menu").classList.toggle("hidden");
+        });
+
+      // Close the dropdown when clicking outside
+      window.addEventListener("click", function (e) {
+        if (!document.getElementById("user-menu-button").contains(e.target)) {
+          document.getElementById("user-menu").classList.add("hidden");
+        }
+      });
     </script>
   </body>
 </html>

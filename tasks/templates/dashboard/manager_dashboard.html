@@ -2,7 +2,7 @@
 {% block title %}Manager Dashboard{% endblock title %}
 {% block tasks %}
 {% comment %} Task Table {% endcomment %}
-<div class="bg-white rounded-xl shadow-sm mx-8">
+<div class="bg-white rounded-xl shadow-sm mx-8 mb-8">
     <div>
             {% if messages %}
                 {% for message in messages %}
@@ -27,12 +27,7 @@
                 <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
                 {% endif %}
                 <div class="flex justify-between gap-2">
-                    <span>{{task.title}}</span>
-                    <span><a href='{% url "update-task" task.id %}' class="px-2 py-1 rounded-lg bg-green-500">Edit</a></span>
-                    <form action='{% url "delete-task" task.id %}' method='POST'>
-                        {% csrf_token %}
-                        <span><button type="submit" class="px-2 py-1 rounded-lg bg-red-500">Delete</a></span>
-                    </form>
+                    <a href="{% url 'task-details' task.id %}">{{task.title}}</a>
                 </div>
             </div>
             <div>
@@ -49,7 +44,7 @@
                     {% for emp in task.assigned_to.all %}
                     <div
                         class="w-10 h-10 rounded-full bg-blue-500 text-white flex justify-center items-center text-sm border-2 border-white">
-                        {{emp.name|slice:':1'}}</div>
+                        {{emp.first_name|slice:':1'}}</div>
                     {% endfor %}
                 </div>
             </div>
