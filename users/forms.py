@@ -82,4 +82,4 @@ class CreateGroupForm(StyleFormMixin,forms.ModelForm):
     
     class Meta:
         model = Group
-        fields = ['name','permissions']
+        fields = ['name','permission']
