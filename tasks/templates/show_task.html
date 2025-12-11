@@ -32,10 +32,10 @@
     </div> {% endcomment %}
     <div>
         <ol>
-            {% for p in tsk_count %}
+            {% for p in projects %}
                 <li>
                     <p>{{p.name}}</p>
-                    <p>{{p.no_task}}</p>
+                    <p>{{p.num_task}}</p>
                 </li>
             {% endfor %}
         </ol>
