@@ -70,11 +70,14 @@ class LoginForm(StyleFormMixin,AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-class AssignRoleForm(StyleFormMixin,forms.Form):
+class AssignRoleForm(StyleFormMixin,forms.ModelForm):
     role = forms.ModelChoiceField(
         queryset=Group.objects.all(),
         empty_label='Select a Role'
     )
+    class Meta:
+        model = User
+        fields = []
     
 class CreateGroupForm(StyleFormMixin,forms.ModelForm):
     permissions = forms.ModelMultipleChoiceField(

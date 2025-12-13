@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
+from django.urls import reverse_lazy
 from tasks.forms import TaskForm, TaskModelForm,TaskDetailModelForm
 from tasks.models import Task,TaskDetail,Project
 from datetime import date
@@ -11,7 +12,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from django.views.generic.base import ContextMixin
-from django.views.generic import ListView,DetailView,UpdateView
+from django.views.generic import ListView,DetailView,UpdateView,DeleteView,TemplateView
 
 # variable for list of decorators
 update_decorators = [login_required,permission_required("tasks.change_task",login_url='no-permission')]
@@ -72,9 +73,36 @@ def manager_dashboard(request):
 # U = UPDATE
 # D = DELETE
 
+class ManagerDashboard(ListView):
+    model = Task
+    template_name = 'dashboard/manager_dashboard.html'
+    
+    def get_queryset(self):
+        type = self.request.GET.get('type','all')
+        base_query = Task.objects.select_related("details").prefetch_related('assigned_to')
+        if type == 'completed':
+            return base_query.filter(status = 'COMPLETED')
+        elif type == 'in-progress':
+            return base_query.filter(status = 'IN_PROGRESS')
+        elif type == 'pending':
+            return base_query.filter(status = 'PENDING')
+        
+        return base_query.all()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["role"] = 'manager'
+        context['counts'] = Task.objects.aggregate(total = Count('id'), completed = Count('id',filter = Q(status='COMPLETED')),in_progress = Count('id',filter = Q(status='IN_PROGRESS')),pending = Count('id',filter = Q(status='PENDING')))
+        context['tasks'] = self.get_queryset()
+        return context
+        
+
 @user_passes_test(is_employee,login_url='no-permission')
 def employee_dashboard(request):
     return render(request,"dashboard/user_dashboard.html")
+
+class EmployeeDashboard(TemplateView):
+    template_name = 'dashboard/user_dashboard.html'    
 
 @login_required
 @permission_required("tasks.add_task",login_url='no-permission')
@@ -157,10 +185,7 @@ class CreateTask(LoginRequiredMixin,PermissionRequiredMixin,ContextMixin,View):
             task_detail.save()
 
             messages.success(request,"Task Created Successfully")
-            context = self.get_context_data(task_form = task_form,task_detail_form = task_detail_form)
-            # return redirect('create-task')
-            return render(request,self.template_name,context)
-
+            return redirect('create-task')
 
 
 @login_required
@@ -254,7 +279,16 @@ def delete_task(request, id):
     else:
         messages.error(request,"Something went wrong")
         return redirect('manager-dashboard')
-
+    
+class DeleteTask(DeleteView):
+    pk_url_kwarg = 'id'
+    model = Task
+    success_url = reverse_lazy('dashboard')
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Task Deleted Successfully")
+        return super().form_valid(form)
+        
 @login_required
 @permission_required("tasks.view_task",login_url='no-permission')
 def view_task(request):
