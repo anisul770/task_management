@@ -1,4 +1,9 @@
 <div class="container mx-auto p-6">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} rounded-lg text-white text-center">{{message}}</div>
+    {% endfor %}
+  {% endif %}
   <div class="overflow-x-auto">
     <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
       <thead class="bg-gray-100">
